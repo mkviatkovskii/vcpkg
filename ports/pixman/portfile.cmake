@@ -1,3 +1,8 @@
+list(APPEND OPTIONS
+        -Dmmx=disabled
+        -Dsse2=disabled
+        -Dssse3=disabled)
+        
 if(VCPKG_TARGET_IS_UWP)
     list(APPEND OPTIONS
             -Dmmx=disabled
