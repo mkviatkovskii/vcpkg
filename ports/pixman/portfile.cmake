@@ -1,60 +1,11 @@
 list(APPEND OPTIONS
         -Dmmx=disabled
         -Dsse2=disabled
-        -Dssse3=disabled)
-        
-if(VCPKG_TARGET_IS_UWP)
-    list(APPEND OPTIONS
-            -Dmmx=disabled
-            -Dsse2=disabled
-            -Dssse3=disabled)
-elseif(VCPKG_TARGET_ARCHITECTURE STREQUAL "x86")
-    if(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
-        set(VCPKG_C_FLAGS "/arch:SSE2 ${VCPKG_C_FLAGS}")
-    endif()
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-        set(VCPKG_CXX_FLAGS "/arch:SSE2 ${VCPKG_CXX_FLAGS}")
-    endif()
-    list(APPEND OPTIONS
-            -Dmmx=enabled
-            -Dsse2=enabled
-            -Dssse3=enabled)
-elseif(VCPKG_TARGET_ARCHITECTURE STREQUAL "x64")
-    #x64 in general has all those intrinsics. (except for UWP for some reason)
-    list(APPEND OPTIONS
-            -Dmmx=enabled
-            -Dsse2=enabled
-            -Dssse3=enabled)
-elseif(VCPKG_TARGET_ARCHITECTURE MATCHES "arm")
-    list(APPEND OPTIONS
-            #-Darm-simd=enabled does not work with arm64-windows
-            -Dmmx=disabled
-            -Dsse2=disabled
-            -Dssse3=disabled)
-elseif(VCPKG_TARGET_ARCHITECTURE MATCHES "mips")
-    list(APPEND OPTIONS
-            -Dmmx=disabled
-            -Dsse2=disabled
-            -Dssse3=disabled)
-elseif(VCPKG_TARGET_ARCHITECTURE MATCHES "wasm32")
-    list(APPEND OPTIONS
-            -Dmmx=disabled
-            -Dsse2=disabled
-            -Dssse3=disabled)
-endif()
-
-if(VCPKG_TARGET_IS_WINDOWS AND VCPKG_TARGET_ARCHITECTURE MATCHES "arm")
-    list(APPEND OPTIONS
-                -Da64-neon=disabled
-                -Darm-simd=disabled
-                -Dneon=disabled
-                )
-endif()
-
-if(VCPKG_TARGET_IS_OSX)
-    # https://github.com/microsoft/vcpkg/issues/29168
-    list(APPEND OPTIONS -Da64-neon=disabled)
-endif()
+        -Dssse3=disabled
+        -Da64-neon=disabled
+        -Darm-simd=disabled
+        -Dneon=disabled
+)
 
 vcpkg_from_gitlab(
     OUT_SOURCE_PATH SOURCE_PATH
